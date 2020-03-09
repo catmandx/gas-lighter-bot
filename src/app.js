@@ -51,6 +51,7 @@ function initCommentStream(){
             return;
         }
     } catch (error) {
+        console.log(error);
         console.info("COMMENT_STREAM_OPTION unavailable/wrong format.");
         return;
     }
@@ -79,6 +80,7 @@ function initPostStream(){
             return;
         }
     } catch (error) {
+        console.log(error)
         console.info("POST_STREAM_OPTION unavailable/wrong format.");
         return;
     }
