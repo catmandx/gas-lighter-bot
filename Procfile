@@ -1,1 +1,1 @@
-worker: node src/app
+worker: node src/web

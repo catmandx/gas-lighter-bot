@@ -25,6 +25,7 @@ function main(){
 
 function configReddit(){
     r.config({continueAfterRatelimitError: true});
+    console.info("Finished Reddit configuration.")
 }
 
 function watchRateLimit(){
@@ -34,12 +35,11 @@ function watchRateLimit(){
 // var callWatchers = WatchJS.callWatchers;
 
     WatchJS.watch(r, "ratelimitRemaining", 
-        () => 
-        {
-            // if(r.ratelimitRemaining > 50){
-                console.warn("Rate limit remaining:" +r.ratelimitRemaining);
-            // }
-        });
+    () => {
+        if(r.ratelimitRemaining < 50){
+            console.warn("Rate limit remaining:" +r.ratelimitRemaining);
+        }
+    });
 }
 
 function initCommentStream(){
@@ -58,14 +58,12 @@ function initCommentStream(){
     const comments = new CommentStream(r, streamOpts);
     comments.on("item", comment => {
         if(comment.created_utc < BOT_START) return;
-        console.log("New COMMENT")
-        console.log(comment.body)
-        console.log(comment.link_id.substring(3))
         if(comment.body.toLowerCase().includes("!resolved")){
+            console.log("New resolved comment!: "+comment.link_id.substring(3))
             let flair = {flair_template_id:MyUtil.FLAIR_ID.RESOLVED}
-            var sub = r.getSubmission(comment.link_id.toString().substring(3));
+            let sub = r.getSubmission(comment.link_id.toString().substring(3));
+            let reply = ""; //TODO
             sub.selectFlair(flair).then(sub.reply())
-            
         }
     })
 
@@ -85,13 +83,13 @@ function initPostStream(){
         return;
     }
     const posts = new Snoostorm.SubmissionStream(r, streamOpts);
+    //*Listen for items (posts)
     posts.on("item", post =>{
         if(post.created_utc < BOT_START) return;
-        console.log("New POST")
-        console.log(post.body)
+        console.log("New POST");
+        console.log(post.body);
         //TODO
     })
-
     console.info("Post Stream established!");
 }
 
@@ -101,4 +99,8 @@ function initInboxStream(){
 
 function initModMailStream(){
     //TODO
+}
+
+module.exports={
+    r
 }
