@@ -62,7 +62,7 @@ function initCommentStream(){
         console.log(comment.body)
         console.log(comment.link_id.substring(3))
         if(comment.body.toLowerCase().includes("!resolved")){
-            let flair = {flair_template_id:MyUtil.RESOLVED_FLAIR_ID}
+            let flair = {flair_template_id:MyUtil.FLAIR_ID.RESOLVED}
             var sub = r.getSubmission(comment.link_id.toString().substring(3));
             sub.selectFlair(flair).then(sub.reply())
             
