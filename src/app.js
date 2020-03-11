@@ -9,18 +9,18 @@ const r = new Snoowrap({
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     refreshToken: process.env.REFRESH_TOKEN
-});;
-const BOT_START = Date.now() / 1000;  
+});
+const BOT_START = Date.now() / 1000;
+var webController;
 
-main();
-
-function main(){
+function initializeBot(controller){
     configReddit();
     watchRateLimit();
     initCommentStream();
     initPostStream();
     initInboxStream();
     initModMailStream();
+    webController = controller;
 }
 
 function configReddit(){
@@ -39,13 +39,17 @@ function watchRateLimit(){
         if(r.ratelimitRemaining < 50){
             console.warn("Rate limit remaining:" +r.ratelimitRemaining);
         }
+        if(webController){
+            webController.broadcast(r.ratelimitRemaining);
+        }
     });
 }
 
 function initCommentStream(){
     console.info("Trying to establish comment stream!");
+    var streamOpts;
     try {
-        var streamOpts = JSON.parse(process.env.COMMENT_STREAM_OPTION);
+        streamOpts = JSON.parse(process.env.COMMENT_STREAM_OPTION);
         if(!streamOpts || !streamOpts.receiving){
             console.info("Comment Stream was disabled, enable through the environment variable.")
             return;
@@ -73,8 +77,9 @@ function initCommentStream(){
 
 function initPostStream(){
     console.info("Trying to establish post stream!");
+    var streamOpts
     try {
-        var streamOpts = JSON.parse(process.env.POST_STREAM_OPTION);
+        streamOpts = JSON.parse(process.env.POST_STREAM_OPTION);
         if(!streamOpts || !streamOpts.receiving){
             console.info("Post Stream was disabled, enable through the environment variable.")
             return;
@@ -104,5 +109,5 @@ function initModMailStream(){
 }
 
 module.exports={
-    r
+    initializeBot
 }
