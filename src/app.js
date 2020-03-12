@@ -21,6 +21,7 @@ function initializeBot(controller){
     initInboxStream();
     initModMailStream();
     webController = controller;
+    return module.exports
 }
 
 function configReddit(){
@@ -95,6 +96,7 @@ function initPostStream(){
         if(post.created_utc < BOT_START) return;
         console.log("New POST");
         console.log(post.body);
+        notifyNewPost("/u/catmandx", post)
         //TODO
     })
     console.info("Post Stream established!");
@@ -108,6 +110,31 @@ function initModMailStream(){
     //TODO
 }
 
+async function notifyNewPost(peopleList, post){
+    if(!post._hasFetched){
+       post = await post.fetch();
+    }
+    var sendFunction = function(people, post){
+        r.composeMessage({
+            to:people,
+            subject:"New post in r/GoogleAppsScript",
+            text:`There's a new post in r/GoogleAppsScript:
+            [${post.title}](${post.url}) posted by ${post.author.name}
+            `
+        }).then(()=>{console.log(`New post notification sent to ${people}.`)})
+        .catch((err)=>{console.log(err)});
+    }
+    if(typeof peopleList == "string"){
+        sendFunction(peopleList, post);
+    }else{
+        for (const people of peopleList) {
+            sendFunction(people, post);
+        }
+    }
+
+
+}
 module.exports={
-    initializeBot
+    initializeBot,
+    r
 }
