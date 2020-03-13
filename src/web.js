@@ -15,7 +15,8 @@ io.on('connection', function(socket){
 });
  
 http.listen(port, ()=>{
-console.log('listening on *:'+port);
+   wakeDyno("https://gas-lighter-bot.herokuapp.com/").start();
+   console.log('listening on *:'+port);
 });
 
 controller.broadcast = (msg) => {
