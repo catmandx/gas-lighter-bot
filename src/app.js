@@ -112,7 +112,13 @@ function initModMailStream(){
 
 async function notifyNewPost(peopleList, post){
     if(!post._hasFetched){
-       post = await post.fetch();
+        try {
+            post = await post.fetch();
+        } catch (error) {
+            console.log("Error at notifyNewPost")
+            console.log(error);
+            return
+        }
     }
     var sendFunction = function(people, post){
         r.composeMessage({
