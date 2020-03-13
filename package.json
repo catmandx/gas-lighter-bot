@@ -19,8 +19,5 @@
     "start": "node src/web"
   },
   "author": "",
-  "license": "MIT",
-  "engines": {
-    "node": "12.x"
-  }
+  "license": "MIT"
 }
