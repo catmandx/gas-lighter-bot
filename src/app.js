@@ -96,7 +96,7 @@ function initPostStream(){
         if(post.created_utc < BOT_START) return;
         console.log("New POST");
         console.log(post.body);
-        notifyNewPost("/u/catmandx", post)
+        // notifyNewPost("/u/catmandx", post)
         //TODO
     })
     console.info("Post Stream established!");
@@ -131,8 +131,6 @@ async function notifyNewPost(peopleList, post){
             sendFunction(people, post);
         }
     }
-
-
 }
 module.exports={
     initializeBot,
