@@ -16,8 +16,8 @@ var webController;
 function initializeBot(controller){
     configReddit();
     watchRateLimit();
-    // initCommentStream();
-    // initPostStream();
+    initCommentStream();
+    initPostStream();
     initInboxStream();
     initModMailStream();
     webController = controller;
@@ -96,7 +96,7 @@ function initPostStream(){
         if(post.created_utc < BOT_START) return;
         console.log("New POST");
         console.log(post.body);
-        // notifyNewPost("/u/catmandx", post)
+        notifyNewPost("/u/catmandx", post).catch((err)=>console.log("send failed at initPOstStream"))
         //TODO
     })
     console.info("Post Stream established!");
