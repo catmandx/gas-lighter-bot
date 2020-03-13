@@ -12,7 +12,7 @@ FLAIR_ID.UNRESOLVED = "6b60be04-604d-11ea-9259-0e0887f8e389";
 FLAIR_ID.ANNOUNCEMENT = "151a7622-6154-11ea-b9a6-0e12ccfdde2d"
 
 const canSummon = (msg) => {
-  return msg && msg.toLowerCase().includes('/u/GAS_Lighter_BOT');
+  return msg && msg.toLowerCase().includes('/u/gas_lighter_bot');
 };
 
 const getMethods = (obj) => {

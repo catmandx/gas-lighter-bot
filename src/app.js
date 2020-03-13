@@ -69,7 +69,7 @@ function initCommentStream(){
             let flair = {flair_template_id:MyUtil.FLAIR_ID.RESOLVED}
             let sub = r.getSubmission(comment.link_id.toString().substring(3));
             let reply = ""; //TODO
-            sub.selectFlair(flair).then(sub.reply())
+            sub.selectFlair(flair).then(()=>sub.reply()).catch(error=>{console.log("error when select flair:\n"+error)});
         }
     })
 
@@ -96,7 +96,7 @@ function initPostStream(){
         if(post.created_utc < BOT_START) return;
         console.log("New POST");
         console.log(post.body);
-        notifyNewPost("/u/catmandx", post)
+        // notifyNewPost("/u/catmandx", post)
         //TODO
     })
     console.info("Post Stream established!");
