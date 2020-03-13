@@ -26,7 +26,8 @@ function initializeBot(controller){
 
 function configReddit(){
     r.config({
-        continueAfterRatelimitError: true
+        continueAfterRatelimitError: true,
+        requestTimeout:5000
         
     });
     console.info("Finished Reddit configuration.")
