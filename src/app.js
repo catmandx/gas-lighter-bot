@@ -147,6 +147,6 @@ module.exports={
 }
 var num = 0
 setInterval(async()=>{
-    var post = r.getSubmission("fhxl4r").fetch().then(()=>console.log("fetch complete"+num++)).catch((err)=>console.log("Error fetching:"+err));
+    var post = r.getSubmission("fhxl4r").fetch().then(()=>console.log("fetch complete"+num++)).catch((err)=>{console.log("Error fetching:",err);num++});
    
 },5000)
