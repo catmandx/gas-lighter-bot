@@ -1,9 +1,9 @@
 require('dotenv').config();
-const MyUtil = require("./myutil.js")
+const MyUtil = require("./myutil.js");
 const { CommentStream, SubmissionStream, ModMailStream, InboxStream } = require("snoostorm");
 const Snoowrap = require('snoowrap');
 const Snoostorm = require('snoostorm');
-const WatchJS = require("melanke-watchjs")
+const WatchJS = require("melanke-watchjs");
 const r = new Snoowrap({
     userAgent: 'catmandx-1st-bot',
     clientId: process.env.CLIENT_ID,
@@ -16,8 +16,8 @@ var webController;
 function initializeBot(controller){
     configReddit();
     watchRateLimit();
-    initCommentStream();
-    initPostStream();
+    // initCommentStream();
+    // initPostStream();
     initInboxStream();
     initModMailStream();
     webController = controller;

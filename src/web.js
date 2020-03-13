@@ -1,7 +1,7 @@
 const controller = {};
 var express = require('express');
 var app = express();
-// const wakeDyno = require("woke-dyno");
+const wakeDyno = require("pingmydyno");
 const bot = require("./app").initializeBot(controller);
 
 var http = require('http').createServer(app);
@@ -16,7 +16,7 @@ io.on('connection', function(socket){
 });
  
 http.listen(port, ()=>{
-   // wakeDyno("https://gas-lighter-bot.herokuapp.com/").start(); 
+   wakeDyno("https://gas-lighter-bot.herokuapp.com/"); 
    console.log('listening on *:'+port);
 });
 
