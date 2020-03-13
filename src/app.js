@@ -96,7 +96,7 @@ function initPostStream(){
         if(post.created_utc < BOT_START) return;
         console.log("New POST");
         console.log(post.body);
-        // notifyNewPost("/u/catmandx", post)
+        notifyNewPost("/u/catmandx", post)
         //TODO
     })
     console.info("Post Stream established!");
@@ -128,7 +128,7 @@ async function notifyNewPost(peopleList, post){
             [${post.title}](${post.url}) posted by ${post.author.name}
             `
         }).then(()=>{console.log(`New post notification sent to ${people}.`)})
-        .catch((err)=>{console.log(err)});
+        .catch((err)=>{console.log("Error on sending noti to catmandx:\n"+err)});
     }
     if(typeof peopleList == "string"){
         sendFunction(peopleList, post);
