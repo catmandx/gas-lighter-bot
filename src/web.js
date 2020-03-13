@@ -1,6 +1,7 @@
 const controller = {};
 var express = require('express');
 var app = express();
+const wakeDyno = require("woke-dyno");
 const bot = require("./app").initializeBot(controller);
 
 var http = require('http').createServer(app);
