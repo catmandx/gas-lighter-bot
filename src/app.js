@@ -146,7 +146,7 @@ module.exports={
     initializeBot,
     r
 }
-if(process.env.TESTING_MODE){
+if(process.env.TESTING_MODE && process.env.TESTING_MODE.toLowerCase() == "true"){
     var num = 0
     var errorNum = 0
     setInterval(async()=>{

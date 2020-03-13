@@ -19,8 +19,10 @@
 
 // const bot = require("./app").initializeBot();
 function test(){
-    let a = "a"
-    if(true){
+    if(0){
+        console.log("abc")
+    }else{
+        console.log("no abc")
     }
-    console.log(a);
 }
+test()
