@@ -142,8 +142,9 @@ module.exports={
     initializeBot,
     r
 }
-
+var num = 0
 setInterval(async()=>{
+    num++;
     var post = await r.getSubmission("fhxl4r").fetch();
-    console.log("fetch complete")
+    console.log("fetch complete"+num)
 },5000)
