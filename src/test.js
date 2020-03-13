@@ -18,3 +18,9 @@
 // });
 
 // const bot = require("./app").initializeBot();
+function test(){
+    let a = "a"
+    if(true){
+    }
+    console.log(a);
+}

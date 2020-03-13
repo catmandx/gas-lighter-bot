@@ -1,4 +1,4 @@
-require('dotenv').config();
+// require('dotenv').config();
 const MyUtil = require("./myutil.js");
 const { CommentStream, SubmissionStream, ModMailStream, InboxStream } = require("snoostorm");
 const Snoowrap = require('snoowrap');
@@ -146,8 +146,11 @@ module.exports={
     initializeBot,
     r
 }
-var num = 0
-setInterval(async()=>{
-    var post = r.getSubmission("fhxl4r").fetch().then(()=>console.log("fetch complete"+num++)).catch((err)=>{console.log("Error fetching:",err);num++});
-   
-},5000)
+if(process.env.TESTING_MODE){
+    var num = 0
+    var errorNum = 0
+    setInterval(async()=>{
+        var post = r.getSubmission("fhxl4r").fetch().then(()=>console.log("fetch complete",num++, " Err num so far:",errorNum)).catch((err)=>{console.log("Error fetching:",err);num++; errorNum++});
+    
+    },5000)
+}
