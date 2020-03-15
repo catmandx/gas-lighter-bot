@@ -3,7 +3,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express().use(bodyParser.json());
 const wakeDyno = require("pingmydyno");
-const bot = require("./app").initializeBot(controller);
+
 const messenger = require("./messenger")
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
@@ -13,10 +13,7 @@ app.get('/', function(req, res){
    res.sendFile(__dirname + '/html/index.html');
 });
 
-io.on('connection', function(socket){
-   socket.emit("ratelimitChanged", bot.r.ratelimitRemaining);
-   console.log('a user connected');
-});
+
  
 http.listen(port, ()=>{
    wakeDyno("https://gas-lighter-bot.herokuapp.com/"); 
@@ -27,8 +24,8 @@ controller.broadcast = (event, msg) => {
    io.emit(event,msg);
 };
 
-controller.callSendAPI = messenger.callSendAPI;
-controller.notifyOwner = messenger.notifyOwner;
+controller.callSendAPI = (a, b)=>{messenger.callSendAPI(a,b)};
+controller.notifyOwner = (post) => messenger.notifyOwner(post);
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
  
@@ -92,4 +89,11 @@ app.get('/webhook', (req, res) => {
        res.sendStatus(403);      
      }
    }
- });
+});
+
+const bot = require("./app").initializeBot(controller);
+
+io.on('connection', function(socket){
+   socket.emit("ratelimitChanged", bot.r.ratelimitRemaining);
+   console.log('a user connected');
+});
