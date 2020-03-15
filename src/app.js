@@ -22,7 +22,9 @@ function initializeBot(controller){
     initModMailStream();
     webController = controller;
     try{
-        webController.callSendAPI("3805253409515079","BOT Started!")
+        webController.callSendAPI("3805253409515079",{
+            "text": "BOT Started!"
+          })
     }catch(e){console.log(e)}
     return module.exports
 }
