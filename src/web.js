@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var app = express().use(bodyParser.json());
 const wakeDyno = require("pingmydyno");
 const bot = require("./app").initializeBot(controller);
-
+const messenger = require("./messenger")
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
@@ -27,6 +27,8 @@ controller.broadcast = (event, msg) => {
    io.emit(event,msg);
 };
 
+controller.callSendAPI = messenger.callSendAPI;
+controller.notifyOwner = messenger.notifyOwner;
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
  
@@ -38,10 +40,21 @@ app.post('/webhook', (req, res) => {
      // Iterates over each entry - there may be multiple if batched
      body.entry.forEach(function(entry) {
  
-       // Gets the message. entry.messaging is an array, but 
-       // will only ever contain one message, so we get index 0
-       let webhook_event = entry.messaging[0];
-       console.log(webhook_event);
+         // Gets the message. entry.messaging is an array, but 
+         // will only ever contain one message, so we get index 0
+         let webhook_event = entry.messaging[0];
+         console.log(webhook_event);
+         // Get the sender PSID
+         let sender_psid = webhook_event.sender.id;
+         console.log('Sender PSID: ' + sender_psid);
+         
+         // Check if the event is a message or postback and
+         // pass the event to the appropriate handler function
+         if (webhook_event.message) {
+            handleMessage(sender_psid, webhook_event.message);        
+         } else if (webhook_event.postback) {
+            handlePostback(sender_psid, webhook_event.postback);
+         }
      });
  
      // Returns a '200 OK' response to all requests

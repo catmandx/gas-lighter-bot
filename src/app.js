@@ -21,6 +21,9 @@ function initializeBot(controller){
     initInboxStream();
     initModMailStream();
     webController = controller;
+    try{
+        webController.callSendAPI("3805253409515079","BOT Started!")
+    }catch(e){console.log(e)}
     return module.exports
 }
 
@@ -101,6 +104,7 @@ function initPostStream(){
         console.log("New POST");
         console.log(post.body);
         notifyNewPost("/u/catmandx", post).catch((err)=>console.log("send failed at initPOstStream"))
+        webController.notifyOwner(post);
         //TODO
     })
     console.info("Post Stream established!");
@@ -142,10 +146,7 @@ async function notifyNewPost(peopleList, post){
         }
     }
 }
-module.exports={
-    initializeBot,
-    r
-}
+
 if(process.env.TESTING_MODE && process.env.TESTING_MODE.toLowerCase() == "true"){
     var num = 0
     var errorNum = 0
@@ -153,4 +154,9 @@ if(process.env.TESTING_MODE && process.env.TESTING_MODE.toLowerCase() == "true")
         var post = r.getSubmission("fhxl4r").fetch().then(()=>console.log("fetch complete",num++, " Err num so far:",errorNum)).catch((err)=>{console.log("Error fetching:",err);num++; errorNum++});
     
     },5000)
+}
+
+module.exports={
+    initializeBot,
+    r
 }
