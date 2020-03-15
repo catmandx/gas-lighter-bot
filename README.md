@@ -3,6 +3,9 @@
 
 # Dependencies
 This project is powered by Node.js with the following libraries:
-* dotenv (for environment variables)
 * snoowrap
 * snoostorm
+* express.js
+* pingmydyno
+* socket.js
+* watch.js
