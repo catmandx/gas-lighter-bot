@@ -10,22 +10,19 @@ const r = new Snoowrap({
     clientSecret: process.env.CLIENT_SECRET,
     refreshToken: process.env.REFRESH_TOKEN
 });
+const Messenger = require("./messenger");
 const BOT_START = Date.now() / 1000;
-var webController;
+var broadcast;
 
-function initializeBot(controller){
+function initializeBot(broadcastFunc){
     configReddit();
     watchRateLimit();
     initCommentStream();
     initPostStream();
     initInboxStream();
     initModMailStream();
-    webController = controller;
-    try{
-        webController.callSendAPI("3805253409515079",{
-            "text": "BOT Started!"
-          })
-    }catch(e){console.log(e)}
+    broadcast = broadcastFunc;
+    Messenger.callSendAPI("3805253409515079", "BOT Started!\nhttps://gas-lighter-bot.herokuapp.com")
     return module.exports
 }
 
@@ -33,7 +30,6 @@ function configReddit(){
     r.config({
         continueAfterRatelimitError: true,
         requestTimeout:process.env.TIME_OUT
-        
     });
     console.info("Finished Reddit configuration.")
 }
@@ -49,8 +45,8 @@ function watchRateLimit(){
         if(r.ratelimitRemaining < 50){
             console.warn("Rate limit remaining:" +r.ratelimitRemaining);
         }
-        if(webController){
-            webController.broadcast("ratelimitChanged", r.ratelimitRemaining);
+        if(broadcast){
+            broadcast("ratelimitChanged", r.ratelimitRemaining);
         }
     });
 }
@@ -125,7 +121,7 @@ async function notifyNewPost(peopleList, post){
         try {
             post = await post.fetch();
         } catch (error) {
-            console.log("Error at notifyNewPost")
+            console.log("Error at notify NewPost")
             console.log(error);
             return
         }

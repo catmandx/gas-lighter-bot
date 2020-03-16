@@ -1,10 +1,9 @@
-const controller = {};
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express().use(bodyParser.json());
 const wakeDyno = require("pingmydyno");
 
-const messenger = require("./messenger")
+// const messenger = require("./messenger")
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
@@ -12,20 +11,16 @@ var port = process.env.PORT || 3000;
 app.get('/', function(req, res){
    res.sendFile(__dirname + '/html/index.html');
 });
-
-
  
 http.listen(port, ()=>{
    wakeDyno("https://gas-lighter-bot.herokuapp.com/"); 
    console.log('listening on *:'+port);
 });
 
-controller.broadcast = (event, msg) => {
+var broadcast = (event, msg) => {
    io.emit(event,msg);
 };
 
-controller.callSendAPI = (a, b)=>{messenger.callSendAPI(a,b)};
-controller.notifyOwner = (post) => messenger.notifyOwner(post);
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
  
@@ -91,9 +86,13 @@ app.get('/webhook', (req, res) => {
    }
 });
 
-const bot = require("./app").initializeBot(controller);
+const bot = require("./bot").initializeBot(broadcast);
 
 io.on('connection', function(socket){
    socket.emit("ratelimitChanged", bot.r.ratelimitRemaining);
    console.log('a user connected');
 });
+
+// module.exports = {
+//   broadcast
+// }

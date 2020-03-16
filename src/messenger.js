@@ -58,16 +58,6 @@ async function notifyOwner(post){
             return
         }
     }
-    var sendFunction = function(people, post){
-        r.composeMessage({
-            to:people,
-            subject:"New post in r/GoogleAppsScript",
-            text:`There's a new post in r/GoogleAppsScript:\n
-            [${post.title}](${post.url}) posted by u/${post.author.name}
-            `
-        }).then(()=>{console.log(`New post notification sent to ${people}.`)})
-        .catch((err)=>{console.log("Error on sending noti to catmandx:\n"+err)});
-    }
     //3805253409515079 Hoang
     // Construct the message body
 
@@ -108,6 +98,7 @@ async function notifyOwner(post){
         }
       }); 
 }
+
 module.exports={
     handleMessage,
     handlePostback,
