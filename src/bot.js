@@ -102,7 +102,7 @@ function initPostStream(){
         console.log("New POST");
         console.log(post.body);
         notifyNewPost("/u/catmandx", post).catch((err)=>console.log("send failed at initPOstStream"))
-        webController.notifyOwner(post);
+        Messenger.notifyOwner(post);
         //TODO
     })
     console.info("Post Stream established!");
@@ -130,9 +130,7 @@ async function notifyNewPost(peopleList, post){
         r.composeMessage({
             to:people,
             subject:"New post in r/GoogleAppsScript",
-            text:`There's a new post in r/GoogleAppsScript:\n
-            [${post.title}](${post.url}) posted by u/${post.author.name}
-            `
+            text:`There's a new post in r/GoogleAppsScript:\n[${post.title}](${post.url}) posted by u/${post.author.name}`
         }).then(()=>{console.log(`New post notification sent to ${people}.`)})
         .catch((err)=>{console.log("Error on sending noti to catmandx:\n"+err)});
     }
