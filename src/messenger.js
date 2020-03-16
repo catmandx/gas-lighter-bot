@@ -26,6 +26,11 @@ function handlePostback(sender_psid, received_postback) {
 function callSendAPI(sender_psid, response) {
   //3805253409515079 Hoang
     // Construct the message body
+    if(typeof response == "string"){
+      response = {
+        text: response
+      }
+    }
     let request_body = {
         "recipient": {
           "id": sender_psid
