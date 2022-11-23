@@ -10,7 +10,7 @@
     "pingmydyno": "^1.5.1",
     "snoostorm": "^1.3.0",
     "snoowrap": "^1.21.0",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.5.0"
   },
   "devDependencies": {},
   "scripts": {
